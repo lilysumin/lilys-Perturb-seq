@@ -314,7 +314,7 @@ top5_degs_filtered = (
 
 # 5. 출력
 for cluster in top5_degs_filtered['group'].unique():
-    print(f"\n🔹 Cluster {cluster} - Top 5 DEGs (filtered):")
+    print(f"\n Cluster {cluster} - Top 5 DEGs (filtered):")
     print(top5_degs_filtered[top5_degs_filtered["group"] == cluster][["names", "logfoldchanges", "pvals_adj"]])
 
 # 6. 원하는 클러스터 순서대로 유전자 이름 정리
@@ -331,7 +331,7 @@ top5_genes_unique = list(dict.fromkeys(top5_genes_ordered))
 top5_degs = deg_all.groupby("group").head(5)
 
 for cluster in top5_degs['group'].unique():
-    print(f"\n🔹 Cluster {cluster} - Top 5 DEGs:")
+    print(f"\n Cluster {cluster} - Top 5 DEGs:")
     print(top5_degs[top5_degs["group"] == cluster][["names", "logfoldchanges", "pvals_adj"]])
     
 desired_order = ['3', '2', '4', '0', '1', '5']
@@ -904,7 +904,7 @@ mask1 = only_kc.obs["branch_1"]
 mask2 = only_kc.obs["branch_2"]
 
 # -----------------------------------
-# 🔹 Figure 1: Branch 1 강조
+#  Figure 1: Branch 1 강조
 fig1, ax1 = plt.subplots(figsize=(7, 6))
 
 # 전체 셀 회색 배경
@@ -919,7 +919,7 @@ ax1.grid(False)
 cbar1 = plt.colorbar(sc1, ax=ax1, label="Pseudotime")
 
 # -----------------------------------
-# 🔹 Figure 2: Branch 2 강조
+#  Figure 2: Branch 2 강조
 fig2, ax2 = plt.subplots(figsize=(7, 6))
 
 # 전체 셀 회색 배경
@@ -962,7 +962,7 @@ fig, axes = plt.subplots(nrows=1, ncols=3, figsize=(23, 6), gridspec_kw={'hspace
 # (0): UMAP by leiden with root cell 표시
 sc.pl.umap(only_kc, color='leiden', ax=axes[0], show=False, legend_loc="on data")
 x, y = only_kc.obsm['X_umap'][root_idx]
-root_plot_0 = axes[0].scatter(x, y, color='red', s=50, label='Root Cell')  # 👈 여기도 handle 저장
+root_plot_0 = axes[0].scatter(x, y, color='red', s=50, label='Root Cell')  
 axes[0].set_title("UMAP: Kupffer Cells")
 
 # (1): PAGA on only_kc
