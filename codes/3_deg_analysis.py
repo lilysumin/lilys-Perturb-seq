@@ -101,7 +101,7 @@ sc.pl.heatmap(
     filtered_ma_genes,
     groupby='KCs differentiation (Initial)',
     cmap='RdYlBu_r',
-    vmin=0,               # 논문 스타일 z-score처럼 조정
+    vmin=0,               
     vmax=1,
     show_gene_labels=True,
     swap_axes=True, 
@@ -393,7 +393,6 @@ plt.show()
 # KO condition & Sample palette 사전 정의
 
 # %%
-# KO condition 별 색상 (일관되게)
 condition_palette = {
     'Alk1_KO': '#d62728', 
     'Cd64_KO': '#1f77b4',  # 파랑
@@ -461,7 +460,6 @@ import scanpy as sc
 
 fig, axs = plt.subplots(nrows=2, ncols=4, figsize=(26, 10), gridspec_kw={'hspace': 0.3, 'wspace': 0.6})
 
-# helper: 오른쪽 바깥에 범례 두기 (y 위치 조절 가능)
 def move_legend_outside(ax, y_center=0.5):
     handles, labels = ax.get_legend_handles_labels()
     if handles:
@@ -475,7 +473,6 @@ def move_legend_outside(ax, y_center=0.5):
             labelspacing=1.2  # 줄 간격
         )
 
-# ---------------- UMAP plots + 범례 이동 ----------------
 # KO condition
 sc.pl.umap(adata, color="condition", palette=condition_palette, title='KO condition', size=20, ax=axs[0, 0], show=False)
 move_legend_outside(axs[0, 0])
@@ -837,7 +834,7 @@ sampled_adata.obs["group"] = pd.Categorical(
 # 5. heatmap 그리기
 g = sc.pl.heatmap(
     sampled_adata,
-    var_names=std_top40,                # <- 너가 지정한 top 40 유전자
+    var_names=std_top40,            
     groupby="group",
     use_raw=False,
     vmin=0,
@@ -1771,7 +1768,6 @@ ax = gp.dotplot(
     cmap=plt.cm.autumn_r
 )
 
-# ✅ 이미 ax는 matplotlib의 Axes → 바로 접근
 ax.set_title("Up", fontsize=14)
 ax.set_yticklabels(ax.get_yticklabels(), fontsize=10)
 
@@ -1810,10 +1806,8 @@ for i, row in top5_down.iterrows():
     term = row["Term"]
     genes_human = row["Genes"].split(";")
     
-    # Human → Mouse 유전자 변환 (첫 글자만 대문자)
     genes_mouse = [g.capitalize() for g in genes_human]
     
-    # 실제 adata에 존재하는 유전자만 필터링
     genes_in_data = [g for g in genes_mouse if g in adata.var_names]
     
     if not genes_in_data:
@@ -1846,15 +1840,12 @@ enr_down_top100.res2d
 # %%
 top100_down = enr_down_top100.res2d.head(10)
 
-# 반복문으로 각 term의 유전자들 UMAP에 시각화
 for i, row in top100_down.iterrows():
     term = row["Term"]
     genes_human = row["Genes"].split(";")
     
-    # Human → Mouse 유전자 변환 (첫 글자만 대문자)
     genes_mouse = [g.capitalize() for g in genes_human]
     
-    # 실제 adata에 존재하는 유전자만 필터링
     genes_in_data = [g for g in genes_mouse if g in adata.var_names]
     
     if not genes_in_data:
@@ -1891,7 +1882,6 @@ NbDr = sci.create_colormap()
 # NbDr
 
 # %%
-# --- 개선된 dotplot ---
 ax = gp.dotplot(
     enr_res,                     
     figsize=(7, 5),              
@@ -1903,7 +1893,6 @@ ax = gp.dotplot(
     show_ring=True
 )
 
-# --- 폰트 크기 및 타이틀 ---
 ax.set_title("GO Biological Process 2025", fontsize=14)
 ax.set_xlabel("")  # x축 label 제거
 ax.set_yticklabels(ax.get_yticklabels(), fontsize=10)
@@ -1920,14 +1909,13 @@ ax = gp.barplot(
     figsize=(10, 5),                
     group='UP_DW',
     title="GO_BP",
-    color=['blue', 'red']               # UP = 빨강, DOWN = 파랑
+    color=['blue', 'red']              
 )
 
 ax.set_title("GO_Biological Process 2025", fontsize=14)
 ax.set_yticklabels(ax.get_yticklabels(), fontsize=10)
 ax.set_xlabel("")
 
-# 🔧 범례 조정
 legend = ax.get_legend()
 if legend:
     legend.set_title("Group", prop={'size': 10})
@@ -1935,7 +1923,6 @@ if legend:
         text.set_fontsize(9)
     legend.set_bbox_to_anchor((1.05, 1))  # 오른쪽으로 밀기
 
-# 🔧 여백 자동 조정
 plt.tight_layout()
 plt.show()
 
@@ -1973,13 +1960,11 @@ ax = gp.dotplot(
     cmap=plt.cm.autumn_r        
 )
 
-# 🔧 타이틀 및 폰트 크기 조정
 ax.set_title("Up", fontsize=14)
 ax.set_yticklabels(ax.get_yticklabels(), fontsize=10)
 ax.set_xlabel("")
 
 
-# 🔧 레이아웃 정리
 plt.tight_layout()
 plt.show()
 
@@ -2073,13 +2058,11 @@ ax = gp.dotplot(
     show_ring=True
 )
 
-# --- 폰트 및 타이틀 설정 ---
 ax.set_title("KEGG Up", fontsize=14)
 ax.set_xlabel("")  # x축 레이블 제거
 ax.set_yticklabels(ax.get_yticklabels(), fontsize=10)
 
 
-# --- 여백 자동 정리 ---
 plt.tight_layout()
 plt.show()
 
@@ -2090,10 +2073,8 @@ for i, row in top5.iterrows():
     term = row["Term"]
     genes_human = row["Genes"].split(";")
     
-    # Human → Mouse 유전자 변환 (첫 글자만 대문자)
     genes_mouse = [g.capitalize() for g in genes_human]
     
-    # 실제 adata에 존재하는 유전자만 필터링
     genes_in_data = [g for g in genes_mouse if g in adata.var_names]
     
     if not genes_in_data:
@@ -2141,7 +2122,6 @@ ax = gp.dotplot(kegg_enr_dw.res2d,
            title="Down",
            cmap = plt.cm.winter_r,
            size=5)
-# --- 타이틀 및 폰트 조정 ---
 ax.set_title("KEGG Down", fontsize=14)
 ax.set_xlabel("")  # x축 label 제거
 ax.set_yticklabels(ax.get_yticklabels(), fontsize=10)
@@ -2152,15 +2132,12 @@ plt.show()
 # %%
 top5_down = kegg_enr_dw.res2d.head(5)
 
-# 반복문으로 각 term의 유전자들 UMAP에 시각화
 for i, row in top5_down.iterrows():
     term = row["Term"]
     genes_human = row["Genes"].split(";")
     
-    # Human → Mouse 유전자 변환 (첫 글자만 대문자)
     genes_mouse = [g.capitalize() for g in genes_human]
     
-    # 실제 adata에 존재하는 유전자만 필터링
     genes_in_data = [g for g in genes_mouse if g in adata.var_names]
     
     if not genes_in_data:
